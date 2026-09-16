@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyril Kafle</title>
-<meta name="description" content="Cyril Kafle: Electrical Engineering student building hardware-adjacent software: PCBInsight AI, Polaris.">
+<meta name="description" content="Cyril Kafle: Electrical Engineering student building deterministic PCB design-review software, CAD/CAM-fabricated hardware, and automation systems.">
 <style>
   @font-face {
     font-family: 'IBM Plex Sans';
@@ -36,6 +36,11 @@
 
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 
   body {
     margin: 0;
@@ -250,6 +255,21 @@
   .project-desc { color: var(--text-muted); font-size: 0.93rem; margin: 0.5rem 0 1rem; }
   .project-desc ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
   .project-desc li { margin-bottom: 0.35rem; }
+  .arch-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin: 0 0 1rem;
+  }
+  .arch-strip .arrow { color: var(--accent-dim); }
   .project-stats {
     display: flex;
     gap: 1.25rem;
@@ -285,8 +305,9 @@
   }
   footer .foot-links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 0.5rem 1.25rem;
     margin-bottom: 0.75rem;
   }
   footer a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
@@ -302,6 +323,7 @@
     <nav>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
+      <a href="resume/Cyril_Kafle_Resume.pdf" target="_blank" rel="noopener">Resume</a>
       <a href="https://github.com/CyrilKafle">GitHub</a>
       <a href="https://linkedin.com/in/cyril-kafle">LinkedIn</a>
     </nav>
@@ -309,11 +331,12 @@
 </header>
 
 <div id="top"></div>
+<main>
 <section class="hero">
   <div class="wrap">
     <div class="avatar-placeholder">CK</div>
     <h1>Cyril Kafle</h1>
-    <p class="tagline">Electrical Engineering student building hardware-adjacent software: deterministic systems, automation pipelines, and the tools around them.</p>
+    <p class="tagline">Electrical Engineering student building engineering software and physical hardware: deterministic PCB tooling, CAD/CAM fabrication, and automation systems.</p>
     <div class="hero-links">
       <a class="link-pill primary" href="https://github.com/CyrilKafle">GitHub</a>
       <a class="link-pill" href="https://linkedin.com/in/cyril-kafle">LinkedIn</a>
@@ -333,9 +356,9 @@
   <div class="wrap about">
     <p class="eyebrow">About</p>
     <h2 class="section-title">A bit about me</h2>
-    <p>I'm an Electrical Engineering student at <strong>Northern Virginia Community College</strong> (GPA 3.9), in my final semester and on track to complete my Associate's degree. From there I'm pursuing a Bachelor's in Electrical Engineering at the <strong>University of Virginia</strong> under a Guaranteed Admission Agreement, with the transfer beginning Fall 2027 — and a Master's at UVA after that is the long-term plan. I'm also a graduate of <strong>Thomas Jefferson High School for Science and Technology</strong>, formerly ranked the #1 public high school in the country for three consecutive years (2019–2022). I grew up tinkering with and fixing things around the house, and that curiosity turned into circuit design, embedded systems, and software.</p>
+    <p>I'm an Electrical Engineering student at <strong>Northern Virginia Community College</strong> (GPA 3.9), in my final semester and on track to complete my Associate's degree. I hold a Guaranteed Admission Agreement to the Bachelor's program at the <strong>University of Virginia</strong>, pending completion of this fall's coursework, with the transfer beginning Fall 2027. I'm also a graduate of <strong>Thomas Jefferson High School for Science and Technology</strong>, formerly ranked the #1 public high school in the country for three consecutive years (2019–2022). I grew up diagnosing and repairing consumer electronics and control boards in my family's electronics business, and that hands-on start turned into circuit design, embedded systems, and software.</p>
     <p>I like building things where the hard part is getting the underlying system right, not the interface on top of it: a deterministic PCB design-review engine, an automated outreach pipeline, a CNC-fabricated furniture prototype. I'd rather spend the extra weekend making sure the logic underneath actually holds up than polish a UI sitting on top of something shaky. On the backend that's Python and FastAPI; on the frontend, TypeScript across React and Next.js, styled with Tailwind; SQL against Postgres for anything that needs to persist. On the hardware side, KiCad for PCB layout, Fusion 360 for CAD/CAM, and C++ on Arduino and other embedded targets, with Java from coursework rounding it out.</p>
-    <p>Outside of engineering, I like team-based projects — building vibe-coded apps and side projects with friends, mostly for the excuse to build something together and actually ship it.</p>
+    <p>Outside of engineering, I like team-based projects — building and shipping side projects with friends, mostly for the excuse to build something together.</p>
   </div>
 </section>
 
@@ -346,7 +369,7 @@
 
     <div class="project-card flagship">
       <div class="project-media">
-        <img src="images/pcbinsight-demo.gif" alt="PCBInsight AI dashboard: upload, deterministic score, AI review, board visualization, AI chat, and PDF export">
+        <img src="images/pcbinsight-report.png" alt="A real PCBInsight AI report for a KiCad board: 98/100 engineering score with a per-category breakdown across routing, power, signal integrity, manufacturability, placement, thermals, and documentation">
       </div>
       <div class="project-body">
         <div class="project-head">
@@ -359,24 +382,48 @@
           that narrates the deterministic findings; it never invents them, and every citation is checked in code, not
           just prompted for.
         </p>
+        <p class="arch-strip">
+          <span>KiCad PCB</span><span class="arrow">&rarr;</span>
+          <span>Parser</span><span class="arrow">&rarr;</span>
+          <span>28 Deterministic Checks</span><span class="arrow">&rarr;</span>
+          <span>Evidence</span><span class="arrow">&rarr;</span>
+          <span>Claude Explanation</span><span class="arrow">&rarr;</span>
+          <span>Report</span>
+        </p>
         <div class="project-stats">
           <span><b>28</b> deterministic checks</span>
           <span><b>147</b> automated tests</span>
           <span><b>10</b>-board validation corpus</span>
-          <span><b>0</b> hallucinated citations</span>
+          <span><b>0</b> hallucinated citations in the corpus</span>
         </div>
         <div class="project-links">
           <a href="https://cyrilkafle.github.io/PCBInsight-AI/">Live site</a>
-          <a href="https://github.com/CyrilKafle/PCBInsight-AI">GitHub</a>
           <a href="https://cyrilkafle.github.io/PCBInsight-AI/try-it-demo.html">Try it</a>
+          <a href="https://github.com/CyrilKafle/PCBInsight-AI">GitHub</a>
         </div>
         <p class="tech-tag">Python (FastAPI), React/TypeScript, Claude API</p>
       </div>
     </div>
 
     <div class="project-card">
+      <div class="project-body">
+        <div class="project-head">
+          <h3 class="project-title">Multifunctional Folding Furniture</h3>
+          <span class="project-role">TJHSST Senior Research &middot; 2024&ndash;2025</span>
+        </div>
+        <p class="project-desc">
+          CAD, CAM &amp; CNC fabrication. A space-efficient, lower-cost multifunctional folding furniture system,
+          designed and built through the full engineering process &mdash; sketches to CAD modeling, CAM toolpath
+          generation, and CNC fabrication in Fusion 360. Measured and sourced raw materials, then machined, welded,
+          bandsaw-cut, and hand-chiseled joints to assemble a fully functional prototype.
+        </p>
+        <p class="tech-tag">Fusion 360 (CAD/CAM), CNC routing, welding, hand fabrication</p>
+      </div>
+    </div>
+
+    <div class="project-card">
       <div class="project-media">
-        <video src="images/polaris-demo.mp4" autoplay muted loop playsinline aria-label="Polaris demo: campaign creation through a generated branded mockup site for a real lead"></video>
+        <video src="images/polaris-demo.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Polaris demo: an auto-generated branded landing-page mockup and lead-capture form for a real local-business prospect"></video>
       </div>
       <div class="project-body">
         <div class="project-head">
@@ -384,9 +431,10 @@
           <span class="project-role">Team project (2 contributors) &middot; May 2026</span>
         </div>
         <p class="project-desc">
-          An automated B2B sales pipeline for local service businesses: it discovers prospects, auto-generates a fully
-          branded landing-page mockup populated with the prospect's real business data (name, Google reviews, photos),
-          and runs the outreach end to end. My contributions:
+          A two-person automated B2B sales pipeline for local service businesses, built with a co-founder: it
+          discovers prospects, auto-generates a fully branded landing-page mockup populated with the prospect's real
+          business data (name, Google reviews, photos), and runs the outreach end to end. The repo is hosted under
+          my collaborator's GitHub. My contributions:
           <ul>
             <li>Built the contact and social discovery service: scraped prospect websites for email and social links, added Facebook Graph API business-page verification and a web-search fallback.</li>
             <li>Rewrote the mockup template engine (~1,500 lines) that generates the branded landing-page mockups from AI-generated lead briefs.</li>
@@ -402,12 +450,14 @@
 
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
     <div class="foot-links">
       <a href="https://github.com/CyrilKafle">GitHub</a>
       <a href="https://linkedin.com/in/cyril-kafle">LinkedIn</a>
+      <a href="resume/Cyril_Kafle_Resume.pdf" target="_blank" rel="noopener">Resume</a>
       <a href="mailto:cyrilkafle6@gmail.com">cyrilkafle6@gmail.com</a>
     </div>
     <p class="fine">Cyril Kafle</p>
@@ -415,6 +465,20 @@
 </footer>
 
 <script>
+(function () {
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.project-media video').forEach(function (v) {
+    if (reduceMotion) {
+      v.removeAttribute('autoplay');
+      v.removeAttribute('loop');
+      v.pause();
+      v.controls = true;
+    } else {
+      var tryPlay = function () { v.play().catch(function () {}); };
+      if (v.readyState >= 2) tryPlay(); else v.addEventListener('loadeddata', tryPlay, { once: true });
+    }
+  });
+})();
 (function () {
   var EMAIL = 'cyrilkafle6@gmail.com';
   var trigger = document.getElementById('email-trigger');
