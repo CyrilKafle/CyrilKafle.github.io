@@ -148,6 +148,42 @@
   .link-pill.primary { background: var(--accent); color: #06110F; border-color: var(--accent); }
   .link-pill.primary:hover { background: #4EE5D3; color: #06110F; }
 
+  .email-menu-wrap { position: relative; display: inline-flex; }
+  .email-menu-wrap .link-pill { cursor: pointer; font: inherit; }
+  .email-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 200px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+    z-index: 20;
+  }
+  .email-menu[hidden] { display: none; }
+  .email-menu-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .email-menu-item:hover, .email-menu-item:focus-visible { background: var(--surface-alt); color: var(--accent); outline: none; }
+  .email-menu-item.copied { color: var(--accent); }
+
   /* ---------- Sections ---------- */
   section { padding: 2.5rem 0; }
   .section-border { border-top: 1px solid var(--border); }
@@ -274,7 +310,15 @@
     <div class="hero-links">
       <a class="link-pill primary" href="https://github.com/CyrilKafle">GitHub</a>
       <a class="link-pill" href="https://linkedin.com/in/cyril-kafle">LinkedIn</a>
-      <a class="link-pill" href="mailto:cyrilkafle6@gmail.com">Email</a>
+      <div class="email-menu-wrap">
+        <button class="link-pill" id="email-trigger" type="button" aria-haspopup="true" aria-expanded="false">Email</button>
+        <div class="email-menu" id="email-menu" role="menu" hidden>
+          <button class="email-menu-item" id="email-copy" type="button" role="menuitem">Copy email address</button>
+          <a class="email-menu-item" role="menuitem" href="https://mail.google.com/mail/?view=cm&fs=1&to=cyrilkafle6@gmail.com" target="_blank" rel="noopener">Open in Gmail</a>
+          <a class="email-menu-item" role="menuitem" href="https://outlook.live.com/mail/0/deeplink/compose?to=cyrilkafle6@gmail.com" target="_blank" rel="noopener">Open in Outlook</a>
+          <a class="email-menu-item" role="menuitem" href="mailto:cyrilkafle6@gmail.com">Open in Mail app</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -283,10 +327,9 @@
   <div class="wrap about">
     <p class="eyebrow">About</p>
     <h2 class="section-title">A bit about me</h2>
-    <p>I'm an Electrical Engineering student at <strong>Northern Virginia Community College</strong> (GPA 3.9), currently in my final semester and on track to earn my Associate's degree, and a graduate of <strong>Thomas Jefferson High School for Science and Technology</strong>, the #1 nationally-ranked public high school. I grew up with an interest in engineering, always tinkering with and fixing things around the house, before moving into circuit design, embedded systems, and software.</p>
-    <p>I like building things where the hard part is getting the underlying system right, not the interface on top of it: a deterministic PCB design-review engine, an automated outreach pipeline, a CNC-fabricated furniture prototype. On the backend that's Python and FastAPI; on the frontend, TypeScript across React and Next.js, styled with Tailwind; SQL against Postgres for anything that needs to persist. On the hardware side, KiCad for PCB layout, Fusion 360 for CAD/CAM, and C++ on Arduino/embedded targets. Java from coursework rounds it out.</p>
-    <p>I currently hold a Guaranteed Admission Agreement to the University of Virginia, contingent on completing my coursework this fall, with the transfer beginning Fall 2027.</p>
-    <p>Outside of engineering, I like team-based projects, building vibe-coded apps and websites with friends, and playing pickleball.</p>
+    <p>I'm an Electrical Engineering student at <strong>Northern Virginia Community College</strong> (GPA 3.9), in my final semester and on track to complete my Associate's degree. From there I'm pursuing a Bachelor's in Electrical Engineering at the <strong>University of Virginia</strong> under a Guaranteed Admission Agreement, with the transfer beginning Fall 2027 — and a Master's at UVA after that is the long-term plan. I'm also a graduate of <strong>Thomas Jefferson High School for Science and Technology</strong>, formerly ranked the #1 public high school in the country for three consecutive years (2019–2022). I grew up tinkering with and fixing things around the house, and that curiosity turned into circuit design, embedded systems, and software.</p>
+    <p>I like building things where the hard part is getting the underlying system right, not the interface on top of it: a deterministic PCB design-review engine, an automated outreach pipeline, a CNC-fabricated furniture prototype. I'd rather spend the extra weekend making sure the logic underneath actually holds up than polish a UI sitting on top of something shaky. On the backend that's Python and FastAPI; on the frontend, TypeScript across React and Next.js, styled with Tailwind; SQL against Postgres for anything that needs to persist. On the hardware side, KiCad for PCB layout, Fusion 360 for CAD/CAM, and C++ on Arduino and other embedded targets, with Java from coursework rounding it out.</p>
+    <p>Outside of engineering, I like team-based projects — building vibe-coded apps and side projects with friends, mostly for the excuse to build something together and actually ship it.</p>
   </div>
 </section>
 
@@ -364,6 +407,64 @@
     <p class="fine">Cyril Kafle</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  var EMAIL = 'cyrilkafle6@gmail.com';
+  var trigger = document.getElementById('email-trigger');
+  var menu = document.getElementById('email-menu');
+  var copyBtn = document.getElementById('email-copy');
+  if (!trigger || !menu) return;
+
+  function closeMenu() {
+    menu.hidden = true;
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+  function openMenu() {
+    menu.hidden = false;
+    trigger.setAttribute('aria-expanded', 'true');
+  }
+
+  trigger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (menu.hidden) openMenu(); else closeMenu();
+  });
+  document.addEventListener('click', function (e) {
+    if (!menu.hidden && !menu.contains(e.target) && e.target !== trigger) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var announce = function () {
+        var original = copyBtn.textContent;
+        copyBtn.textContent = 'Copied!';
+        copyBtn.classList.add('copied');
+        setTimeout(function () {
+          copyBtn.textContent = original;
+          copyBtn.classList.remove('copied');
+          closeMenu();
+        }, 1100);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(EMAIL).then(announce, announce);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = EMAIL;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+        announce();
+      }
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
