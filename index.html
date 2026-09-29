@@ -448,6 +448,29 @@
       </div>
     </div>
 
+    <div class="project-card">
+      <div class="project-media">
+        <video src="images/waypoint-demo.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Waypoint demo: a browser automation run filling out a mock web form, with a live action log and a pause on a question it cannot answer"></video>
+      </div>
+      <div class="project-body">
+        <div class="project-head">
+          <h3 class="project-title">Waypoint</h3>
+          <span class="project-role">Solo project &middot; Jul. 2026</span>
+        </div>
+        <div class="project-desc">
+          A browser automation framework I built to handle repetitive web forms. It reads a page, detects the fields,
+          maps them to a structured profile, and fills text fields, dropdowns, radio groups and file uploads. The demo
+          above is a run against a mock form with dummy data.
+          <ul>
+            <li>Built in TypeScript on Playwright, with per-site handling for different form systems and an action log of every run.</li>
+            <li>Pauses for a human on questions it has no answer for, and stops at captchas instead of trying to solve them.</li>
+            <li>Uses the Gmail and Google Sheets APIs for email verification links and run tracking. It was first used on job applications.</li>
+          </ul>
+        </div>
+        <p class="tech-tag">TypeScript, Playwright, Gmail API, Google Sheets API</p>
+      </div>
+    </div>
+
   </div>
 </section>
 </main>
