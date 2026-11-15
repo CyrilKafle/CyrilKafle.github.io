@@ -378,30 +378,30 @@
         </div>
         <p class="project-desc">
           A full-stack PCB design review platform for KiCad projects. A custom S-expression parser and a deterministic
-          28-check engineering analysis engine do all the actual analysis; Claude sits on top as a strictly-bounded layer
-          that narrates the deterministic findings; it never invents them, and every citation is checked in code, not
-          just prompted for.
+          28-check engineering analysis engine do all the actual analysis. An optional LLM layer explains the findings
+          afterward from a digest of the engine's results, and every finding ID it cites is checked against the real
+          list in code.
         </p>
         <p class="arch-strip">
           <span>KiCad PCB</span><span class="arrow">&rarr;</span>
           <span>Parser</span><span class="arrow">&rarr;</span>
           <span>28 Deterministic Checks</span><span class="arrow">&rarr;</span>
           <span>Evidence</span><span class="arrow">&rarr;</span>
-          <span>Claude Explanation</span><span class="arrow">&rarr;</span>
+          <span>LLM Explanation</span><span class="arrow">&rarr;</span>
           <span>Report</span>
         </p>
         <div class="project-stats">
           <span><b>28</b> deterministic checks</span>
-          <span><b>147</b> automated tests</span>
+          <span><b>159</b> automated tests</span>
           <span><b>10</b>-board validation corpus</span>
-          <span><b>0</b> hallucinated citations in the corpus</span>
+          <span><b>0</b> pcbnew/CAD dependencies</span>
         </div>
         <div class="project-links">
           <a href="https://cyrilkafle.github.io/PCBInsight-AI/">Live site</a>
           <a href="https://cyrilkafle.github.io/PCBInsight-AI/try-it-demo.html">Try it</a>
           <a href="https://github.com/CyrilKafle/PCBInsight-AI">GitHub</a>
         </div>
-        <p class="tech-tag">Python (FastAPI), React/TypeScript, Claude API</p>
+        <p class="tech-tag">Python (FastAPI), React/TypeScript, LLM API integration</p>
       </div>
     </div>
 
